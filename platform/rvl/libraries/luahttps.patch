@@ -1,0 +1,11 @@
+--- common/PlaintextConnection.cpp	2025-12-04 17:40:25.571418300 -0500
++++ common/PlaintextConnection2cpp	2025-12-04 17:39:52.922484800 -0500
+@@ -55,7 +55,7 @@
+ 	for (addrinfo *addr = addrs; !connected && addr; addr = addr->ai_next)
+ 	{
+ 		fd = socket(addr->ai_family, SOCK_STREAM, 0);
+-		connected = ::connect(fd, addr->ai_addr, addr->ai_addrlen) == 0;
++		connected = ::connect(fd, reinterpret_cast<const sockaddr*>(addr->ai_addr), addr->ai_addrlen) == 0;
+ 		if (!connected)
+ 			::close(fd);
+ 	}

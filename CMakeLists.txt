@@ -177,6 +177,7 @@ if (NINTENDO_WIIU)
     )
 
     execute_process(COMMAND patch -d ${CMAKE_CURRENT_BINARY_DIR}/luasocket/libluasocket -N -i ${PROJECT_SOURCE_DIR}/platform/cafe/libraries/luasocket.patch)
+    
 
     find_package(Freetype REQUIRED)
     set(APP_LIBS freetype bz2)
@@ -187,6 +188,48 @@ if (NINTENDO_WIIU)
 
     target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_mixer mpg123 SDL2)
 endif()
+
+if (NINTENDO_WII)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE
+        __CONSOLE__="Wii" __OS__="RVL"
+    )
+
+    add_subdirectory(platform/rvl)
+
+    set(APP_ICON platform/rvl/icon.png)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(APP_ICON platform/rvl/icon-dev.png)
+    endif()
+
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${PROJECT_NAME}>" "$<TARGET_FILE_DIR:${PROJECT_NAME}>/${PROJECT_NAME}.dol"
+    )
+
+    add_custom_target(dist COMMAND
+        ${CMAKE_COMMAND} -E tar "cfv" "${PROJECT_NAME}-wii-${COMMIT_HASH}.zip" --format=zip
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/$<TARGET_FILE_NAME:${PROJECT_NAME}>"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>/${PROJECT_NAME}.dol"
+    )
+
+    add_custom_target(test
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/test"
+        COMMAND ${CMAKE_COMMAND} -E tar "cfv" "game.love" --format=zip .
+        COMMAND ${CMAKE_COMMAND} -E cat "$<TARGET_FILE_DIR:${PROJECT_NAME}>/${PROJECT_NAME}.dol" "game.love" > "$<TARGET_FILE_DIR:${PROJECT_NAME}>/${PROJECT_NAME}_test.dol"
+    )
+
+    execute_process(COMMAND patch -d ${CMAKE_CURRENT_BINARY_DIR}/luasocket/libluasocket -N -i ${PROJECT_SOURCE_DIR}/platform/rvl/libraries/luasocket.patch)
+    execute_process(COMMAND patch -d ${CMAKE_CURRENT_BINARY_DIR}/lua-https/src/common -N -i ${PROJECT_SOURCE_DIR}/platform/rvl/libraries/lua-https.patch)
+
+    find_package(Freetype REQUIRED)
+    set(APP_LIBS freetype bz2)
+
+    find_package(SDL2 REQUIRED)
+    target_include_directories(${PROJECT_NAME} PRIVATE ${DEVKITPRO}/portlibs/wii/include)
+    target_include_directories(${PROJECT_NAME} PRIVATE ${FREETYPE_INCLUDE_DIRS})
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE SDL2_mixer mpg123 SDL2 ogc m)
+endif()
+
 
 # Options for code generation
 target_compile_options(${PROJECT_NAME} PRIVATE
@@ -261,14 +304,14 @@ add_library(lua-https STATIC
 )
 
 set(LIBRARY_LOADER "linktime")
-target_compile_definitions(lua-https PRIVATE
-    HTTPS_LIBRARY_LOADER_LINKTIME
-    HTTPS_BACKEND_CURL
-)
+#target_compile_definitions(lua-https PRIVATE
+#    HTTPS_LIBRARY_LOADER_LINKTIME
+#    HTTPS_BACKEND_CURL
+#)
 
 # link curl
 pkg_check_modules(libcurl REQUIRED IMPORTED_TARGET libcurl)
-target_link_libraries(lua-https PRIVATE PkgConfig::lua51 PkgConfig::libcurl)
+#target_link_libraries(lua-https PRIVATE PkgConfig::lua51 PkgConfig::libcurl)
 
 
 # luasocket
@@ -308,10 +351,10 @@ add_library(luasocket
      ${CMAKE_CURRENT_BINARY_DIR}/luasocket/libluasocket/usocket.c
      ${CMAKE_CURRENT_BINARY_DIR}/luasocket/libluasocket/usocket.h
 )
-target_link_libraries(luasocket PRIVATE PkgConfig::lua51)
-target_include_directories(luasocket PRIVATE
-    libraries/lua53
-)
+#target_link_libraries(luasocket PRIVATE PkgConfig::lua51)
+#target_include_directories(luasocket PRIVATE
+#    libraries/lua53
+#)
 
 # find PkgConfig for liblz4, libmpg123
 find_package(PkgConfig REQUIRED)
@@ -351,7 +394,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE PkgConfig::lua51)
 # link everything else
 target_link_libraries(${PROJECT_NAME} PRIVATE
     ${APP_LIBS} physfs box2d z turbojpeg png vorbisidec ogg
-    modplug luabit lua53 wuff ddsparse lua-https luasocket noise1234
+    modplug luabit lua53 wuff ddsparse lua-  noise1234
 )
 
 # Include directories
@@ -360,7 +403,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     libraries/ddsparse
     libraries/dr
     libraries/lua53
-    libraries/luasocket
+    #libraries/luasocket
     libraries/noise1234
     libraries/utf8
     libraries/wuff

@@ -36,10 +36,7 @@
         ],
         "hacCompilerPath": "C:/msys64/opt/devkitpro/devkitA64/bin/aarch64-none-elf-g++",
         "cafeIncludePaths": [
-            "${workspaceFolder}/platform/cafe/include/**",
-            "C:/msys64/opt/devkitpro/wut/include/**",
-            "C:/msys64/opt/devkitpro/portlibs/wiiu/include/**",
-            "C:/msys64/opt/devkitpro/portlibs/ppc/include/**"
+            "${workspaceFolder}/platform/cafe/include/**"
         ],
         "cafeDefines": [
             "__WIIU__",
@@ -143,6 +140,34 @@
             "compilerPath": "${env:cafeCompilerPath}",
             "cStandard": "c11",
             "cppStandard": "${env:defaultCppStandard}",
+            "intelliSenseMode": "linux-gcc-arm"
+        },
+        {
+            "name": "Wii {Debug}",
+            "includePath": [
+                "d:/Code/lovepotion/include/**",
+                "d:/Code/lovepotion/libraries/**",
+                "d:/Code/lovepotion/platform/rvl/include/**"
+            ],
+            "defines": [
+                "__APP_VERSION__=\"3.0.0\"",
+                "__LOVE_VERSION__=\"12.0\"",
+                "_USE_MATH_DEFINES",
+                "__WII__",
+                "__OS__=\"RVL\"",
+                "__CONSOLE__=\"Wii\"",
+                "__DEBUG__=1"
+            ],
+            "windowsSdkVersion": "10.0.26100.0",
+            "compilerPath": "C:/msys64/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "cStandard": "c11",
+            "cppStandard": "c++20",
+            "compilerPathInCppPropertiesJson": "C:/msys64/opt/devkitpro/devkitPPC/bin/powerpc-eabi-g++",
+            "mergeConfigurations": false,
+            "recursiveIncludes": {},
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true
+            },
             "intelliSenseMode": "linux-gcc-arm"
         }
     ],

@@ -14,12 +14,16 @@ namespace love
             CTR,
             HAC,
             CAFE,
+            RVL,
             ALL
         };
 
         static constexpr std::string_view Name = __CONSOLE__;
 
-        static constexpr Platform Which = (Name == "3DS") ? CTR : (Name == "Switch") ? HAC : CAFE;
+        static constexpr Platform Which = (Name == "3DS") ? CTR : (Name == "Switch") ? HAC
+                                               : (Name == "WiiU") ? CAFE
+                                               : (Name == "Wii") ? RVL
+                                                                 : ALL;
 
         static constexpr bool Is(Console::Platform platform)
         {

@@ -52,6 +52,7 @@ namespace love
             GAMEPAD_BUTTON_DPAD_DOWN,
             GAMEPAD_BUTTON_DPAD_LEFT,
             GAMEPAD_BUTTON_DPAD_RIGHT,
+            GAMEPAD_BUTTON_SPECIAL,
         };
 
         enum InputType
@@ -124,7 +125,8 @@ namespace love
             "dpup",          GAMEPAD_BUTTON_DPAD_UP,
             "dpdown",        GAMEPAD_BUTTON_DPAD_DOWN,
             "dpleft",        GAMEPAD_BUTTON_DPAD_LEFT,
-            "dpright",       GAMEPAD_BUTTON_DPAD_RIGHT
+            "dpright",       GAMEPAD_BUTTON_DPAD_RIGHT,
+            "special",       GAMEPAD_BUTTON_SPECIAL
         };
 
         static constexpr BidirectionalMap axisTypes = {

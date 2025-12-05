@@ -27,7 +27,8 @@ constexpr BidirectionalMap buttons = {
     Joystick<>::GAMEPAD_BUTTON_DPAD_UP,       VPAD_BUTTON_UP,
     Joystick<>::GAMEPAD_BUTTON_DPAD_DOWN,     VPAD_BUTTON_DOWN,
     Joystick<>::GAMEPAD_BUTTON_DPAD_RIGHT,    VPAD_BUTTON_RIGHT,
-    Joystick<>::GAMEPAD_BUTTON_DPAD_LEFT,     VPAD_BUTTON_LEFT
+    Joystick<>::GAMEPAD_BUTTON_DPAD_LEFT,     VPAD_BUTTON_LEFT,
+    Joystick<>::GAMEPAD_BUTTON_SPECIAL,       VPAD_BUTTON_TV
 };
 
 constexpr BidirectionalMap axes = {

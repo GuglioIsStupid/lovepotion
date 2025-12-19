@@ -35,3 +35,6 @@ test
 
 *.zip
 debug.py
+
+!platform/rvl/pkglist.txt
+!platform/3ds/CMakeLists.txt

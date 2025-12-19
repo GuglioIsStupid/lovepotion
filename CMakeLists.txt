@@ -218,7 +218,7 @@ if (NINTENDO_WII)
     )
 
     execute_process(COMMAND patch -d ${CMAKE_CURRENT_BINARY_DIR}/luasocket/libluasocket -N -i ${PROJECT_SOURCE_DIR}/platform/rvl/libraries/luasocket.patch)
-    execute_process(COMMAND patch -d ${CMAKE_CURRENT_BINARY_DIR}/lua-https/src/common -N -i ${PROJECT_SOURCE_DIR}/platform/rvl/libraries/lua-https.patch)
+    execute_process(COMMAND patch -d ${CMAKE_CURRENT_BINARY_DIR}/luahttps/src/common -N -i ${PROJECT_SOURCE_DIR}/platform/rvl/libraries/lua-https.patch)
 
     find_package(Freetype REQUIRED)
     set(APP_LIBS freetype bz2)
@@ -304,14 +304,14 @@ add_library(lua-https STATIC
 )
 
 set(LIBRARY_LOADER "linktime")
-#target_compile_definitions(lua-https PRIVATE
-#    HTTPS_LIBRARY_LOADER_LINKTIME
-#    HTTPS_BACKEND_CURL
-#)
+target_compile_definitions(lua-https PRIVATE
+    HTTPS_LIBRARY_LOADER_LINKTIME
+    HTTPS_BACKEND_CURL
+)
 
 # link curl
 pkg_check_modules(libcurl REQUIRED IMPORTED_TARGET libcurl)
-#target_link_libraries(lua-https PRIVATE PkgConfig::lua51 PkgConfig::libcurl)
+target_link_libraries(lua-https PRIVATE PkgConfig::lua51 PkgConfig::libcurl)
 
 
 # luasocket
@@ -351,10 +351,10 @@ add_library(luasocket
      ${CMAKE_CURRENT_BINARY_DIR}/luasocket/libluasocket/usocket.c
      ${CMAKE_CURRENT_BINARY_DIR}/luasocket/libluasocket/usocket.h
 )
-#target_link_libraries(luasocket PRIVATE PkgConfig::lua51)
-#target_include_directories(luasocket PRIVATE
-#    libraries/lua53
-#)
+target_link_libraries(luasocket PRIVATE PkgConfig::lua51)
+target_include_directories(luasocket PRIVATE
+    libraries/lua53
+)
 
 # find PkgConfig for liblz4, libmpg123
 find_package(PkgConfig REQUIRED)
@@ -403,7 +403,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     libraries/ddsparse
     libraries/dr
     libraries/lua53
-    #libraries/luasocket
+    libraries/luasocket
     libraries/noise1234
     libraries/utf8
     libraries/wuff

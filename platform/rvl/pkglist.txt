@@ -1,0 +1,16 @@
+ppc-box2d
+ppc-bzip2
+ppc-freetype
+ppc-glm
+ppc-libjpeg-turbo
+ppc-libmodplug
+ppc-libogg
+ppc-libpng
+ppc-libvorbisidec
+ppc-liblua51
+ppc-lz4
+ppc-zlib
+wii-physfs
+wii-sdl2
+wii-sdl2_mixer
+wii-cmake
